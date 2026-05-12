@@ -474,30 +474,96 @@ function irPara(id){
 function renderEventos(){
   const el=document.getElementById('eventos-lista');
   const ativos=eventos.filter(e=>e.ativo);
-  if(!ativos.length){el.innerHTML=`<div class="empty-state"><span class="em">📭</span><p>Nenhum evento disponível.</p></div>`;return;}
+
+  if(!ativos.length){
+    el.innerHTML=`<div class="empty-state">
+      <span class="em">📭</span>
+      <p>Nenhum evento disponível.</p>
+    </div>`;
+    return;
+  }
+
   el.innerHTML=ativos.map(e=>{
+
     const d=new Date(e.data+'T12:00:00');
-    const dFmt=d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'});
-    const dSem=d.toLocaleDateString('pt-BR',{weekday:'long'});
+
+    const dFmt=d.toLocaleDateString('pt-BR',{
+      day:'2-digit',
+      month:'2-digit',
+      year:'numeric'
+    });
+
+    const dSem=d.toLocaleDateString('pt-BR',{
+      weekday:'long'
+    });
+
+    // FORMATA HORA
+    const horaFmt = e.hora
+      ? new Date(e.hora).toLocaleTimeString('pt-BR',{
+          hour:'2-digit',
+          minute:'2-digit'
+        })
+      : '--:--';
+
     return `<div class="evt-card" onclick="selecionarEvento('${e.id}')">
-      <div class="ec-topo"><span class="ec-badge">${ICONES[e.tipo]||'🏅'} ${e.tipo}</span><div class="ec-dot"></div></div>
-      <div class="ec-logo-wrap"><img class="ec-logo" src="${LOGO_SRC}" alt="LOCOMOVE"></div>
+      <div class="ec-topo">
+        <span class="ec-badge">${ICONES[e.tipo]||'🏅'} ${e.tipo}</span>
+        <div class="ec-dot"></div>
+      </div>
+
+      <div class="ec-logo-wrap">
+        <img class="ec-logo" src="${LOGO_SRC}" alt="LOCOMOVE">
+      </div>
+
       <div class="ec-body">
         <div class="ec-desc">Vem participar do</div>
+
         <div class="ec-nome">${e.nome}</div>
+
         ${e.desc?`<div class="ec-slogan">${e.desc}</div>`:''}
+
         ${e.slogan?`<div class="ec-sub">${e.slogan}</div>`:''}
+
         <div class="ec-info">
-          <div class="ec-info-item"><div class="lbl">Data</div><div class="val">${dFmt}<small>${dSem}</small></div></div>
+
+          <div class="ec-info-item">
+            <div class="lbl">Data</div>
+            <div class="val">
+              ${dFmt}
+              <small>${dSem}</small>
+            </div>
+          </div>
+
           <div class="ec-sep"></div>
-          <div class="ec-info-item"><div class="lbl">Horário</div><div class="val">${e.hora}<small>da manhã</small></div></div>
+
+          <div class="ec-info-item">
+            <div class="lbl">Horário</div>
+            <div class="val">
+              ${horaFmt}
+              <small>da manhã</small>
+            </div>
+          </div>
+
           <div class="ec-sep"></div>
-          <div class="ec-info-item"><div class="lbl">Local</div><div class="val">${e.local}<small>${e.cidade||''}</small></div></div>
+
+          <div class="ec-info-item">
+            <div class="lbl">Local</div>
+            <div class="val">
+              ${e.local}
+              <small>${e.cidade||''}</small>
+            </div>
+          </div>
+
         </div>
-        <button class="ec-btn" onclick="event.stopPropagation();selecionarEvento('${e.id}')">Inscrever-se agora →</button>
+
+        <button class="ec-btn"
+          onclick="event.stopPropagation();selecionarEvento('${e.id}')">
+          Inscrever-se agora →
+        </button>
+
       </div>
-      <img class="ec-banner" src="${BANNER_SRC}" alt="Vamos juntos acelerar">
     </div>`;
+
   }).join('');
 }
 
