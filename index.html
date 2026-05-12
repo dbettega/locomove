@@ -350,7 +350,10 @@ html,body{height:100%;overflow:hidden;background:var(--azul);color:var(--br);fon
 /* ══════════════════════════════════════════
    CONFIGURAÇÃO
 ══════════════════════════════════════════ */
-let API_URL = localStorage.getItem('lm_api_url') || '';
+//let API_URL = localStorage.getItem('lm_api_url') || '';
+const API_URL =
+  localStorage.getItem('lm_api_url') ||
+  'https://script.google.com/macros/s/AKfycbzBV5ymfIrw5c-GEf9wGAAp1b66-klNFs6wXXWmqMULJX7WLacf0GV0LRMFw6cvbPUbPA/exec';
 
 const PIN = '1234';
 let pinBuf='', adminOk=false, eventoAtual=null, dadosInsc=null, aceite=false;
