@@ -463,7 +463,7 @@ async function carregarEventos(){
         data:(i.Data||'').substring(0,10),
         hora:parseHora(i.Hora), local:i.Local||'', cidade:i.Cidade||'',
         desc:i.Descricao||'', slogan:i.Slogan||'',
-        meta:i.Meta||80, ativo:true,
+        meta:i.Meta||80, ativo:String(i.Ativo).toLowerCase()==='true',
         modalidades:i.Modalidades?i.Modalidades.split(';').map(s=>s.trim()):modsPorTipo(i.Tipo)
       }));
       renderEventos();
@@ -508,9 +508,10 @@ function irPara(id){
 /* ── Render eventos ── */
 function renderEventos(){
   const el=document.getElementById('eventos-lista');
+  // sort por string YYYY-MM-DD — funciona corretamente e é consistente entre ambientes
   const ativos=eventos
     .filter(e=>e.ativo)
-    .sort((a,b)=>new Date(a.data)-new Date(b.data));
+    .sort((a,b)=>(a.data||'').localeCompare(b.data||''));
 
   if(!ativos.length){
     el.innerHTML=`<div class="empty-state">
@@ -701,7 +702,7 @@ function carregarCfgAdmin(){
 }
 async function carregarEventosAdmin(){
   renderAdmEventos();
-  if(API_URL && !eventos.length){
+  if(API_URL){
     try{ await carregarEventos(); }
     catch(e){ console.warn('Admin load:',e); }
   }
