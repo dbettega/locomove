@@ -495,8 +495,19 @@ async function testarAPI(){
 }
 
 function salvarApiUrl(){
-  API_URL=document.getElementById('cfg-api-url').value.trim();
-  localStorage.setItem('lm_api_url', API_URL);
+
+  const novaUrl =
+    document.getElementById('cfg-api-url')
+    .value
+    .trim();
+
+  // Se vazio → volta pra padrão
+  API_URL = novaUrl || DEFAULT_API_URL;
+
+  localStorage.setItem(
+    'lm_api_url',
+    API_URL
+  );
 }
 
 /* ── Navegação ── */
@@ -698,9 +709,18 @@ function verificarPin(){
   else{document.querySelectorAll('.pin-dot').forEach(d=>d.classList.add('shake'));setTimeout(()=>{pinBuf='';atualizarDots();document.querySelectorAll('.pin-dot').forEach(d=>d.classList.remove('shake'));},400);}
 }
 function carregarCfgAdmin(){
-  API_URL=localStorage.getItem('lm_api_url')||'';
-  document.getElementById('cfg-api-url').value=API_URL;
-  setStatus('adm',API_URL?'ok':'err',API_URL?'URL configurada':'Cole a URL do Apps Script');
+
+  API_URL =
+    localStorage.getItem('lm_api_url') ||
+    DEFAULT_API_URL;
+
+  document.getElementById('cfg-api-url').value = API_URL;
+
+  setStatus(
+    'adm',
+    'ok',
+    'URL configurada'
+  );
 }
 async function carregarEventosAdmin(){
   renderAdmEventos();
