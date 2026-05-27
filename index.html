@@ -374,8 +374,11 @@ html,body{
 /* ══════════════════════════════════════════
    CONFIGURAÇÃO
 ══════════════════════════════════════════ */
-let API_URL = localStorage.getItem('lm_api_url') || '';
+// URL padrão fixa do Apps Script
+const DEFAULT_API_URL = 'https://script.google.com/macros/s/AKfycbzsA4QHhYgKeZET21CzDMrGLUwBvIGmarB8ug1vAz9glQAipKYK8NR8mBQMc1dSKTtp3A/exec';
 
+// Carrega do localStorage ou usa a padrão
+let API_URL = localStorage.getItem('lm_api_url') || DEFAULT_API_URL;
 const PIN = '1234';
 let pinBuf='', adminOk=false, eventoAtual=null, dadosInsc=null, aceite=false;
 
